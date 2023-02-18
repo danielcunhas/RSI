@@ -1,11 +1,19 @@
 import {db} from "../db.js"
 
-/* funções responsáveis pela tabela de alunos*/
+/*função responsavel por retornar os alunos de uma turma x que fazem uma materia y */
 
-export const getAlunos = (_,res)=>{
-    const queryGetTodosAlunos = "SELECT * FROM ALUNO"
+export const getAlunos = (req,res)=>{
 
-    db.query(queryGetTodosAlunos,(err,data) => {
+  const codTurma = req.params.codturma;
+  const codDisciplina = req.params.coddisciplina;
+
+  let getAlunosTurmaMateria = "SELECT Aluno.Matricula ,Aluno.Nome_Aluno, Aluno.Email_Aluno, Aluno.Cod_Turma " +
+  " FROM ALUNO " +
+  " INNER JOIN Aluno_Disc ON Aluno.Matricula = Aluno_Disc.Matricula " + 
+  " INNER JOIN Disciplina ON Aluno_Disc.Cod_Disciplina = Disciplina.Cod_Disciplina " +
+  " WHERE Aluno.Cod_Turma = "+ db.escape(codTurma) + "AND Disciplina.Cod_Disciplina = " + db.escape(codDisciplina)
+
+    db.query(getAlunosTurmaMateria,(err,data) => {
         if (err){
           return res.json(err)
         }else {
@@ -55,7 +63,6 @@ export const deleteAluno = (req, res) => {
     
   });
 };
-
 
 
 

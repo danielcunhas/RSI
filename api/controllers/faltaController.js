@@ -18,33 +18,37 @@ export const setFalta = (req, res) => {
 
   /* função responsável por retornar alunos que estão entre 50% e 75% de faltas baseado na turma selecionada*/
   /* função tambem resposavel por realizar a chamada do disparo de email para o aluno selecionado, avisando sobre seu numero elevado de faltas*/
+  
+export const getAlunosFaltasExcedentes = (req, res) => {
+  const codturma = req.params.codturma;
+  const codaluno = req.params.codaluno;
+  let queryGetAluno = "SELECT Aluno.Matricula, Aluno.Nome_Aluno, Aluno.Email_aluno, Disciplina.Nome_Disciplina, (Faltas * 100 / Nummax_faltas) AS Percentual_Faltas " +
+  " FROM ALUNO " +
+  " JOIN Aluno_Disc ON Aluno.Matricula = Aluno_Disc.Matricula " + 
+  " JOIN Disciplina ON Aluno_Disc.Cod_Disciplina = Disciplina.Cod_Disciplina " +
+  " WHERE (Faltas * 100 / Nummax_faltas) BETWEEN 50 AND 75 AND " +
+  " Disciplina.Cod_turma = " + db.escape(codturma);
+  
+  if (codaluno) {   
+    queryGetAluno += " AND Aluno.Matricula = " + db.escape(codaluno);
+    db.query(queryGetAluno, (err,data) => {
+      if (err) {
+        res.json(err);
+      } else {
+        enviarEmailFalta(data, res);
+      }
+    });
+  } else {
+    db.query(queryGetAluno, (err,data) => {
+      if (err) {
+        res.json(err);
+      } else {
+        res.status(200).json(data);
+      }
+    });
+  }
+};
 
-  export const getAlunosFaltasExcedentes = (req, res) => {
-   var queryGetAluno = "SELECT Aluno.Matricula, Aluno.Nome_Aluno, Aluno.Email_aluno, Disciplina.Nome_Disciplina, (Faltas * 100 / Nummax_faltas) AS Percentual_Faltas " +
-   " FROM ALUNO " +
-   " JOIN Aluno_Disc ON Aluno.Matricula = Aluno_Disc.Matricula " + 
-   " JOIN Disciplina ON Aluno_Disc.Cod_Disciplina = Disciplina.Cod_Disciplina " +
-   " WHERE (Faltas * 100 / Nummax_faltas) BETWEEN 50 AND 75 AND " 
-   if ( Object.keys(req.params).length === 1 ){   
-      queryGetAluno += " Disciplina.Cod_turma = ? "
-      db.query(queryGetAluno, req.params.codturma, (err,data) => {
-        if (err){
-          return res.json(err)
-        }else {
-          return res.status(200).json(data)
-        }
-      });
-   }else{
-      queryGetAluno += " Disciplina.Cod_turma = ? AND Aluno.Matricula = ?"
-      db.query(queryGetAluno, [req.params.codturma,req.params.codaluno], (err,data) => {
-        if (err){
-          return res.json(err)
-        }else {
-          return enviarEmailFalta(data,res)
-        }
-      });
-   }
- };
 
 /*função responsável pelo disparo de email*/
 
@@ -147,10 +151,10 @@ export const enviarEmailFalta = async (data, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ message: 'E-mail enviado com sucesso!' });
+    res.status(200).json({ message: 'E-mail enviado com sucesso!', status: true });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Ocorreu um erro ao enviar o e-mail.' });
+    res.status(500).json({ error: 'Ocorreu um erro ao enviar o e-mail.', status: false });
   }
 };
 

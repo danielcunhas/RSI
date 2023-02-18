@@ -1,0 +1,9 @@
+fluxo -> 
+
+1- listar as turmas após isso selecionar a turma desejada
+2- mostrar as materias que compoe essa turma e o professor que ministra a meteria, selecionar a meteria desejada
+3- Após selecionar a materia desejada ira listar os alunos daquela materia 
+4- nessa tela será listado os alunos com um grid e com um checkbox para poder selecionar os alunos que faltaram
+5- se possivel atraves de um campo o professor poder digitar o numero de faltas que deseja dar naquela chamada - pois um professor pode dar mais de uma aula da mesma materia
+6- nessa tela tambem tera uma opção para analisar os alunos com faltas entre 50 e 75% e dessa forma disparar um email avisando sobre  
+7- analisar como será feito o relatório de faltas da sala - por email, pdf etc. tbm será na tela de listagem os alunos.
