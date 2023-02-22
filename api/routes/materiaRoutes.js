@@ -3,6 +3,6 @@ import {getMateriasDaTurma} from "../controllers/materiaController.js"
 
 const router = express.Router()
 
-router.get("/materiaturma/:codturma" , getMateriasDaTurma)
+router.get("/materias/:codturma" , getMateriasDaTurma)
 
 export default router

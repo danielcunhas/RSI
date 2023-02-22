@@ -12,7 +12,8 @@ export const getMateriasDaTurma = (req, res) => {
     " INNER JOIN Turma ON Disciplina.Cod_turma = Turma.Cod_turma " + 
     " INNER JOIN Prof_Disc ON Disciplina.Cod_Disciplina = Prof_Disc.Cod_Disciplina " +
     " INNER JOIN Professor ON Prof_Disc.Cod_Professor = Professor.Cod_Professor " +
-    " WHERE Turma.Cod_turma = " + db.escape(codturma);
+    " WHERE Turma.Cod_turma = " + db.escape(codturma); +
+    " ORDERBY Disciplina.Cod_Disciplina" 
   
     db.query(queryMateriasTurma, codturma , (err,data) => {
       if (err) {
