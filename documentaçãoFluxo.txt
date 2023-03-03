@@ -1,7 +1,10 @@
 fluxo -> 
 
-1- listar as turmas após isso selecionar a turma desejada
-2- mostrar as materias que compoe essa turma e o professor que ministra a meteria, selecionar a meteria desejada
+
+1- pagina de login ( terá apenas um acesso único ).
+1-  após logar , listar as turmas após isso selecionar a turma desejada
+3- irá listar uma tela com os dias da sememana 
+2- mostrar as materias que compoe essa turma baseado no dia da semana, e o professor que ministra a meteria, selecionar a meteria desejada
 3- Após selecionar a materia desejada ira listar os alunos daquela materia 
 4- nessa tela será listado os alunos com um grid e com um checkbox para poder selecionar os alunos que faltaram
 5- se possivel atraves de um campo o professor poder digitar o numero de faltas que deseja dar naquela chamada - pois um professor pode dar mais de uma aula da mesma materia
